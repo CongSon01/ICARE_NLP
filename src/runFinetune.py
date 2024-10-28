@@ -29,7 +29,7 @@ from tqdm import tqdm
 from transformers import AdamW
 
 from model.basemodel import BaseModel
-from read_data import merge_labeling, prepare_dataloaders
+from read_merge_data import merge_labeling, prepare_dataloaders
 
 use_cuda = torch.cuda.is_available()
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

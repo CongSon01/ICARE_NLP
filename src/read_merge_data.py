@@ -6,6 +6,31 @@ from transformers import *
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 
+def merge_labeling(tasks, task_classes):
+    '''
+    :param tasks: a list of the names of tasks, e.g. ["amazon", "yahoo"]
+    :param task_classes:  the corresponding numbers of classes, e.g. [5, 10]
+    :return: the class # offsets, e.g. [0, 5]
+    Here we merge the labels of yelp and amazon based on this paper 
+    << de Masson D'Autume, Cyprien, et al. "Episodic memory in lifelong language learning." Advances in Neural Information Processing Systems 32 (2019).
+    '''
+    task_num = len(tasks)
+    offsets = [0] * task_num
+    prev = -1
+    total_classes = 0
+    for i in range(task_num):
+        if tasks[i] in ["amazon", "yelp"]:
+            if prev == -1:
+                prev = i
+                offsets[i] = total_classes
+                total_classes += task_classes[i]
+            else:
+                offsets[i] = offsets[prev]
+        else:
+            offsets[i] = total_classes
+            total_classes += task_classes[i]
+    return total_classes, offsets
+
 def get_tokenized(texts, tokenizer, max_seq_len):
     result = []
     mask_res = []
@@ -150,31 +175,5 @@ class myDataset(Dataset):
     def __getitem__(self, idx):
         return torch.tensor(self.text[idx]), \
                torch.tensor(self.mask[idx]), self.labels[idx]
-
-
-def merge_labeling(tasks, task_classes):
-    '''
-    :param tasks: a list of the names of tasks, e.g. ["amazon", "yahoo"]
-    :param task_classes:  the corresponding numbers of classes, e.g. [5, 10]
-    :return: the class # offsets, e.g. [0, 5]
-    Here we merge the labels of yelp and amazon based on this paper 
-    << de Masson D'Autume, Cyprien, et al. "Episodic memory in lifelong language learning." Advances in Neural Information Processing Systems 32 (2019).
-    '''
-    task_num = len(tasks)
-    offsets = [0] * task_num
-    prev = -1
-    total_classes = 0
-    for i in range(task_num):
-        if tasks[i] in ["amazon", "yelp"]:
-            if prev == -1:
-                prev = i
-                offsets[i] = total_classes
-                total_classes += task_classes[i]
-            else:
-                offsets[i] = offsets[prev]
-        else:
-            offsets[i] = total_classes
-            total_classes += task_classes[i]
-    return total_classes, offsets
 
 

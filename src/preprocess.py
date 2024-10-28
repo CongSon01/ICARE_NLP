@@ -74,7 +74,7 @@ def cls_name2id(classes, dataset_name):
 
 
 if __name__ == "__main__":
-    datasets = ['ag', 'yelp', 'amazon', 'dbpedia', 'yahoo', '20NG']
+    datasets = ['ag', 'yelp', 'amazon', 'dbpedia', 'yahoo']
     modes = ['train', 'test']
     for ds in datasets:
         for mode in modes:

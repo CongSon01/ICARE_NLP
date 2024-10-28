@@ -8,7 +8,7 @@ from tqdm import tqdm
 from transformers import AdamW
 
 from model.basemodel import BaseModel
-from read_data import merge_labeling, prepare_dataloaders
+from read_merge_data import merge_labeling, prepare_dataloaders
 
 
 DATA_DIR = '../data'

@@ -12,7 +12,7 @@ from sklearn.mixture import GaussianMixture
 from _Memory import Memory
 from model.ILModel_BERT import ILModel, Predictor
 
-from read_data import merge_labeling, prepare_dataloaders
+from read_merge_data import merge_labeling, prepare_dataloaders
 
 DATA_DIR = '../data'
 
