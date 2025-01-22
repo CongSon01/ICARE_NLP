@@ -558,4 +558,6 @@ def runRnD():
     print("FORGET: {}".format(calculate_forget(track_avg_acc)))
 
 if __name__ == '__main__':
+    start_time = time.time()
     runRnD()
+    print("Runing time = ", time.time() - start_time)
